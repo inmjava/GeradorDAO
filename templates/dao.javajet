@@ -15,8 +15,6 @@ public class <%=g.getNomeTabelaClass()%>DAO {
 	public void salvar<%=g.getNomeTabelaClass()%>(<%=g.getNomeTabelaClass()%> <%=g.getNomeTabelaVar()%>) {
 
 		VistoriAppHelper helper = new VistoriAppHelper(this.context);
-
-		// helper = new VistoriAppHelper(this.context);
 		SQLiteDatabase db = helper.getReadableDatabase();
 
 		ContentValues initialValues = new ContentValues();
@@ -28,4 +26,35 @@ public class <%=g.getNomeTabelaClass()%>DAO {
 		db.close();
 		helper.close();
 	}
+	
+	public <%=g.getNomeTabelaClass()%> findById(int id) {
+
+		VistoriAppHelper helper = new VistoriAppHelper(this.context);
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Cursor dados = db.query(TABLE_NAME, new String[] { KEY_<%=g.getNomeColunaConstante(0)%><% for(int i = 1; i < g.size(); i++){%> + ", ",
+		                                                   KEY_<%=g.getNomeColunaConstante(i)%><%}%> }, 
+		                        "id = ?", new String[]{id+""}, null, null, null);
+		<%=g.getNomeTabelaClass()%> <%=g.getNomeTabelaVar()%> = null;
+		if (dados.moveToNext()) {
+			<%=g.getNomeTabelaVar()%>.setId(id);
+			<% for(int i = 0; i < g.size(); i++){
+			%><%=g.getNomeTabelaVar()%>.set<%=g.getNomeColunaGet(i)%>(dados.getString(<%=i%>));
+			<%}%>
+		}
+		dados.close();
+		db.close();
+		helper.close();
+		return <%=g.getNomeTabelaVar()%>;
+	}
+	
+	public boolean deleteById(int id){
+		
+		VistoriAppHelper helper = new VistoriAppHelper(this.context);
+		SQLiteDatabase db = helper.getReadableDatabase();
+		boolean excluiu = db.delete(TABLE_NAME, "id = ?", new String[]{id+""});
+		db.close();
+		helper.close();
+		return excluiu;
+	}
+	
 }

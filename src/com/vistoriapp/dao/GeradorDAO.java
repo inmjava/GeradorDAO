@@ -24,13 +24,24 @@ public class GeradorDAO  {
   protected final String TEXT_9 = "DAO(Context context) {" + NL + "\t\tthis.context = context;" + NL + "\t}" + NL + "" + NL + "\tpublic void salvar";
   protected final String TEXT_10 = "(";
   protected final String TEXT_11 = " ";
-  protected final String TEXT_12 = ") {" + NL + "" + NL + "\t\tVistoriAppHelper helper = new VistoriAppHelper(this.context);" + NL + "" + NL + "\t\t// helper = new VistoriAppHelper(this.context);" + NL + "\t\tSQLiteDatabase db = helper.getReadableDatabase();" + NL + "" + NL + "\t\tContentValues initialValues = new ContentValues();" + NL + "\t\t";
+  protected final String TEXT_12 = ") {" + NL + "" + NL + "\t\tVistoriAppHelper helper = new VistoriAppHelper(this.context);" + NL + "\t\tSQLiteDatabase db = helper.getReadableDatabase();" + NL + "" + NL + "\t\tContentValues initialValues = new ContentValues();" + NL + "\t\t";
   protected final String TEXT_13 = "initialValues.put(KEY_";
   protected final String TEXT_14 = ", ";
   protected final String TEXT_15 = ".get";
   protected final String TEXT_16 = "());" + NL + "\t\t";
-  protected final String TEXT_17 = NL + "\t\tdb.insert(TABLE_NAME, null, initialValues);" + NL + "" + NL + "\t\tdb.close();" + NL + "\t\thelper.close();" + NL + "\t}" + NL + "}";
-  protected final String TEXT_18 = NL;
+  protected final String TEXT_17 = NL + "\t\tdb.insert(TABLE_NAME, null, initialValues);" + NL + "" + NL + "\t\tdb.close();" + NL + "\t\thelper.close();" + NL + "\t}" + NL + "\t" + NL + "\tpublic ";
+  protected final String TEXT_18 = " findById(int id) {" + NL + "" + NL + "\t\tVistoriAppHelper helper = new VistoriAppHelper(this.context);" + NL + "\t\tSQLiteDatabase db = helper.getReadableDatabase();" + NL + "\t\tCursor dados = db.query(TABLE_NAME, new String[] { KEY_";
+  protected final String TEXT_19 = " + \", \"," + NL + "\t\t                                                   KEY_";
+  protected final String TEXT_20 = " }, " + NL + "\t\t                        \"id = ?\", new String[]{id+\"\"}, null, null, null);" + NL + "\t\t";
+  protected final String TEXT_21 = " ";
+  protected final String TEXT_22 = " = null;" + NL + "\t\tif (dados.moveToNext()) {" + NL + "\t\t\t";
+  protected final String TEXT_23 = ".setId(id);" + NL + "\t\t\t";
+  protected final String TEXT_24 = ".set";
+  protected final String TEXT_25 = "(dados.getString(";
+  protected final String TEXT_26 = "));" + NL + "\t\t\t";
+  protected final String TEXT_27 = NL + "\t\t}" + NL + "\t\tdados.close();" + NL + "\t\tdb.close();" + NL + "\t\thelper.close();" + NL + "\t\treturn ";
+  protected final String TEXT_28 = ";" + NL + "\t}" + NL + "\t" + NL + "\tpublic boolean deleteById(int id){" + NL + "\t\t" + NL + "\t\tVistoriAppHelper helper = new VistoriAppHelper(this.context);" + NL + "\t\tSQLiteDatabase db = helper.getReadableDatabase();" + NL + "\t\tboolean excluiu = db.delete(TABLE_NAME, \"id = ?\", new String[]{id+\"\"});" + NL + "\t\tdb.close();" + NL + "\t\thelper.close();" + NL + "\t\treturn excluiu;" + NL + "\t}" + NL + "\t" + NL + "}";
+  protected final String TEXT_29 = NL;
 
 	/*
 	 * (non-javadoc)
@@ -74,7 +85,33 @@ public class GeradorDAO  {
     stringBuffer.append(TEXT_16);
     }
     stringBuffer.append(TEXT_17);
+    stringBuffer.append(g.getNomeTabelaClass());
     stringBuffer.append(TEXT_18);
+    stringBuffer.append(g.getNomeColunaConstante(0));
+     for(int i = 1; i < g.size(); i++){
+    stringBuffer.append(TEXT_19);
+    stringBuffer.append(g.getNomeColunaConstante(i));
+    }
+    stringBuffer.append(TEXT_20);
+    stringBuffer.append(g.getNomeTabelaClass());
+    stringBuffer.append(TEXT_21);
+    stringBuffer.append(g.getNomeTabelaVar());
+    stringBuffer.append(TEXT_22);
+    stringBuffer.append(g.getNomeTabelaVar());
+    stringBuffer.append(TEXT_23);
+     for(int i = 0; i < g.size(); i++){
+			
+    stringBuffer.append(g.getNomeTabelaVar());
+    stringBuffer.append(TEXT_24);
+    stringBuffer.append(g.getNomeColunaGet(i));
+    stringBuffer.append(TEXT_25);
+    stringBuffer.append(i);
+    stringBuffer.append(TEXT_26);
+    }
+    stringBuffer.append(TEXT_27);
+    stringBuffer.append(g.getNomeTabelaVar());
+    stringBuffer.append(TEXT_28);
+    stringBuffer.append(TEXT_29);
     return stringBuffer.toString();
   }
 }
