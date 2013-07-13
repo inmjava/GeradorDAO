@@ -1,0 +1,31 @@
+ <%@ jet package="com.vistoriapp.dao" class="GeradorDAO" skeleton="generator.skeleton" %>
+
+public class <%=g.getNomeTabelaClass()%>DAO {
+
+	private Context context;
+	private final String TABLE_NAME = "<%=g.getNomeTabela()%>";
+	<% for(int i = 0; i < g.size(); i++){
+	%>private final String KEY_<%=g.getNomeColunaConstante(i)%> = "<%=g.getNomeColuna(i)%>";
+	<%}%>
+
+	public <%=g.getNomeTabelaClass()%>DAO(Context context) {
+		this.context = context;
+	}
+
+	public void salvar<%=g.getNomeTabelaClass()%>(<%=g.getNomeTabelaClass()%> <%=g.getNomeTabelaVar()%>) {
+
+		VistoriAppHelper helper = new VistoriAppHelper(this.context);
+
+		// helper = new VistoriAppHelper(this.context);
+		SQLiteDatabase db = helper.getReadableDatabase();
+
+		ContentValues initialValues = new ContentValues();
+		<% for(int i = 0; i < g.size(); i++){
+		%>initialValues.put(KEY_<%=g.getNomeColunaConstante(i)%>, <%=g.getNomeTabelaVar()%>.get<%=g.getNomeColunaGet(i)%>());
+		<%}%>
+		db.insert(TABLE_NAME, null, initialValues);
+
+		db.close();
+		helper.close();
+	}
+}
