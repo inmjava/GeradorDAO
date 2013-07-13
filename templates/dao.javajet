@@ -36,6 +36,7 @@ public class <%=g.getNomeTabelaClass()%>DAO {
 		                        "id = ?", new String[]{id+""}, null, null, null);
 		<%=g.getNomeTabelaClass()%> <%=g.getNomeTabelaVar()%> = null;
 		if (dados.moveToNext()) {
+			<%=g.getNomeTabelaVar()%> = new <%=g.getNomeTabelaClass()%>(); 
 			<%=g.getNomeTabelaVar()%>.setId(id);
 			<% for(int i = 0; i < g.size(); i++){
 			%><%=g.getNomeTabelaVar()%>.set<%=g.getNomeColunaGet(i)%>(dados.getString(<%=i%>));
@@ -51,7 +52,7 @@ public class <%=g.getNomeTabelaClass()%>DAO {
 		
 		VistoriAppHelper helper = new VistoriAppHelper(this.context);
 		SQLiteDatabase db = helper.getReadableDatabase();
-		boolean excluiu = db.delete(TABLE_NAME, "id = ?", new String[]{id+""});
+		boolean excluiu = (db.delete(TABLE_NAME, "id = ?", new String[]{id+""}) > 0);
 		db.close();
 		helper.close();
 		return excluiu;
