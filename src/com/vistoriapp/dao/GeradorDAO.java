@@ -33,7 +33,7 @@ public class GeradorDAO  {
   protected final String TEXT_18 = NL + "\t\tdb.insert(TABLE_NAME, null, initialValues);" + NL + "" + NL + "\t\tdb.close();" + NL + "\t\thelper.close();" + NL + "\t}" + NL + "\t" + NL + "\tpublic ";
   protected final String TEXT_19 = " findById(int id) {" + NL + "" + NL + "\t\tVistoriAppHelper helper = new VistoriAppHelper(this.context);" + NL + "\t\tSQLiteDatabase db = helper.getReadableDatabase();" + NL + "\t\tCursor dados = db.query(TABLE_NAME, new String[] { KEY_";
   protected final String TEXT_20 = "," + NL + "\t\t                                                   KEY_";
-  protected final String TEXT_21 = " }, " + NL + "\t\t                        \"id = ?\", new String[]{id+\"\"}, null, null, null);" + NL + "\t\t";
+  protected final String TEXT_21 = " }, " + NL + "\t\t                        \"_id = ?\", new String[]{id+\"\"}, null, null, null);" + NL + "\t\t";
   protected final String TEXT_22 = " ";
   protected final String TEXT_23 = " = null;" + NL + "\t\tif (dados.moveToNext()) {" + NL + "\t\t\t";
   protected final String TEXT_24 = " = new ";
@@ -43,7 +43,7 @@ public class GeradorDAO  {
   protected final String TEXT_28 = "(dados.getString(";
   protected final String TEXT_29 = "));" + NL + "\t\t\t";
   protected final String TEXT_30 = NL + "\t\t}" + NL + "\t\tdados.close();" + NL + "\t\tdb.close();" + NL + "\t\thelper.close();" + NL + "\t\treturn ";
-  protected final String TEXT_31 = ";" + NL + "\t}" + NL + "\t" + NL + "\tpublic boolean deleteById(int id){" + NL + "\t\t" + NL + "\t\tVistoriAppHelper helper = new VistoriAppHelper(this.context);" + NL + "\t\tSQLiteDatabase db = helper.getReadableDatabase();" + NL + "\t\tboolean excluiu = (db.delete(TABLE_NAME, \"id = ?\", new String[]{id+\"\"}) > 0);" + NL + "\t\tdb.close();" + NL + "\t\thelper.close();" + NL + "\t\treturn excluiu;" + NL + "\t}" + NL + "\t" + NL + "}";
+  protected final String TEXT_31 = ";" + NL + "\t}" + NL + "\t" + NL + "\tpublic boolean deleteById(int id){" + NL + "\t\t" + NL + "\t\tVistoriAppHelper helper = new VistoriAppHelper(this.context);" + NL + "\t\tSQLiteDatabase db = helper.getReadableDatabase();" + NL + "\t\tboolean excluiu = (db.delete(TABLE_NAME, \"_id = ?\", new String[]{id+\"\"}) > 0);" + NL + "\t\tdb.close();" + NL + "\t\thelper.close();" + NL + "\t\treturn excluiu;" + NL + "\t}" + NL + "\t" + NL + "}";
   protected final String TEXT_32 = NL;
 
 	/*
