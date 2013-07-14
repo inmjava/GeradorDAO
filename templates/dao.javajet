@@ -1,4 +1,12 @@
  <%@ jet package="com.vistoriapp.dao" class="GeradorDAO" skeleton="generator.skeleton" %>
+package com.vistoriapp.db;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.vistoriapp.pojo.<%=g.getNomeTabelaClass()%>;
 
 public class <%=g.getNomeTabelaClass()%>DAO {
 
@@ -31,7 +39,7 @@ public class <%=g.getNomeTabelaClass()%>DAO {
 
 		VistoriAppHelper helper = new VistoriAppHelper(this.context);
 		SQLiteDatabase db = helper.getReadableDatabase();
-		Cursor dados = db.query(TABLE_NAME, new String[] { KEY_<%=g.getNomeColunaConstante(0)%><% for(int i = 1; i < g.size(); i++){%> + ", ",
+		Cursor dados = db.query(TABLE_NAME, new String[] { KEY_<%=g.getNomeColunaConstante(0)%><% for(int i = 1; i < g.size(); i++){%>,
 		                                                   KEY_<%=g.getNomeColunaConstante(i)%><%}%> }, 
 		                        "id = ?", new String[]{id+""}, null, null, null);
 		<%=g.getNomeTabelaClass()%> <%=g.getNomeTabelaVar()%> = null;
