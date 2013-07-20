@@ -50,7 +50,7 @@ public class GeradorDAO  {
   protected final String TEXT_35 = " }, " + NL + "\t\t                        null, null, null, null, null);" + NL + "\t\t                        " + NL + "\t\tArrayList<";
   protected final String TEXT_36 = "> lst";
   protected final String TEXT_37 = " = new ArrayList<";
-  protected final String TEXT_38 = ">();" + NL + "\t\tif (dados.moveToNext()) {" + NL + "\t\t\t";
+  protected final String TEXT_38 = ">();" + NL + "\t\twhile (dados.moveToNext()) {" + NL + "\t\t\t";
   protected final String TEXT_39 = " ";
   protected final String TEXT_40 = " = new ";
   protected final String TEXT_41 = "(); " + NL + "\t\t\t";
