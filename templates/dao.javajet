@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import java.util.ArrayList;
 
 import com.vistoriapp.pojo.<%=g.getNomeTabelaClass()%>;
 
@@ -54,6 +55,29 @@ public class <%=g.getNomeTabelaClass()%>DAO {
 		db.close();
 		helper.close();
 		return <%=g.getNomeTabelaVar()%>;
+	}
+	
+	public ArrayList<<%=g.getNomeTabelaClass()%>> listAll<%=g.getNomeTabelaClass()%>() {
+
+		VistoriAppHelper helper = new VistoriAppHelper(this.context);
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Cursor dados = db.query(TABLE_NAME, new String[] { "_id",
+		                                                   KEY_<%=g.getNomeColunaConstante(0)%><% for(int i = 1; i < g.size(); i++){%>,
+		                                                   KEY_<%=g.getNomeColunaConstante(i)%><%}%> }, 
+		                        null, null, null, null, null);
+		                        
+		ArrayList<<%=g.getNomeTabelaClass()%>> lst<%=g.getNomeTabelaClass()%> = new ArrayList<<%=g.getNomeTabelaClass()%>>();
+		if (dados.moveToNext()) {
+			<%=g.getNomeTabelaClass()%> <%=g.getNomeTabelaVar()%> = new <%=g.getNomeTabelaClass()%>(); 
+			<%=g.getNomeTabelaVar()%>.setId(dados.getInt(0));
+			<% for(int i = 0; i < g.size(); i++){
+			%><%=g.getNomeTabelaVar()%>.set<%=g.getNomeColunaGet(i)%>(dados.getString(<%=i+1%>));
+			<%}%>lst<%=g.getNomeTabelaClass()%>.add(<%=g.getNomeTabelaVar()%>);
+		}
+		dados.close();
+		db.close();
+		helper.close();
+		return lst<%=g.getNomeTabelaClass()%>;
 	}
 	
 	public boolean deleteById(int id){

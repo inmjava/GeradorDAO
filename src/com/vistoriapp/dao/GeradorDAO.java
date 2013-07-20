@@ -14,7 +14,7 @@ public class GeradorDAO  {
 
   public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = " ";
-  protected final String TEXT_2 = NL + "package com.vistoriapp.db;" + NL + "" + NL + "import android.content.ContentValues;" + NL + "import android.content.Context;" + NL + "import android.database.Cursor;" + NL + "import android.database.sqlite.SQLiteDatabase;" + NL + "" + NL + "import com.vistoriapp.pojo.";
+  protected final String TEXT_2 = NL + "package com.vistoriapp.db;" + NL + "" + NL + "import android.content.ContentValues;" + NL + "import android.content.Context;" + NL + "import android.database.Cursor;" + NL + "import android.database.sqlite.SQLiteDatabase;" + NL + "import java.util.ArrayList;" + NL + "" + NL + "import com.vistoriapp.pojo.";
   protected final String TEXT_3 = ";" + NL + "" + NL + "public class ";
   protected final String TEXT_4 = "DAO {" + NL + "" + NL + "\tprivate Context context;" + NL + "\tprivate final String TABLE_NAME = \"";
   protected final String TEXT_5 = "\";" + NL + "\t";
@@ -43,8 +43,26 @@ public class GeradorDAO  {
   protected final String TEXT_28 = "(dados.getString(";
   protected final String TEXT_29 = "));" + NL + "\t\t\t";
   protected final String TEXT_30 = NL + "\t\t}" + NL + "\t\tdados.close();" + NL + "\t\tdb.close();" + NL + "\t\thelper.close();" + NL + "\t\treturn ";
-  protected final String TEXT_31 = ";" + NL + "\t}" + NL + "\t" + NL + "\tpublic boolean deleteById(int id){" + NL + "\t\t" + NL + "\t\tVistoriAppHelper helper = new VistoriAppHelper(this.context);" + NL + "\t\tSQLiteDatabase db = helper.getReadableDatabase();" + NL + "\t\tboolean excluiu = (db.delete(TABLE_NAME, \"_id = ?\", new String[]{id+\"\"}) > 0);" + NL + "\t\tdb.close();" + NL + "\t\thelper.close();" + NL + "\t\treturn excluiu;" + NL + "\t}" + NL + "\t" + NL + "}";
-  protected final String TEXT_32 = NL;
+  protected final String TEXT_31 = ";" + NL + "\t}" + NL + "\t" + NL + "\tpublic ArrayList<";
+  protected final String TEXT_32 = "> listAll";
+  protected final String TEXT_33 = "() {" + NL + "" + NL + "\t\tVistoriAppHelper helper = new VistoriAppHelper(this.context);" + NL + "\t\tSQLiteDatabase db = helper.getReadableDatabase();" + NL + "\t\tCursor dados = db.query(TABLE_NAME, new String[] { \"_id\"," + NL + "\t\t                                                   KEY_";
+  protected final String TEXT_34 = "," + NL + "\t\t                                                   KEY_";
+  protected final String TEXT_35 = " }, " + NL + "\t\t                        null, null, null, null, null);" + NL + "\t\t                        " + NL + "\t\tArrayList<";
+  protected final String TEXT_36 = "> lst";
+  protected final String TEXT_37 = " = new ArrayList<";
+  protected final String TEXT_38 = ">();" + NL + "\t\tif (dados.moveToNext()) {" + NL + "\t\t\t";
+  protected final String TEXT_39 = " ";
+  protected final String TEXT_40 = " = new ";
+  protected final String TEXT_41 = "(); " + NL + "\t\t\t";
+  protected final String TEXT_42 = ".setId(dados.getInt(0));" + NL + "\t\t\t";
+  protected final String TEXT_43 = ".set";
+  protected final String TEXT_44 = "(dados.getString(";
+  protected final String TEXT_45 = "));" + NL + "\t\t\t";
+  protected final String TEXT_46 = "lst";
+  protected final String TEXT_47 = ".add(";
+  protected final String TEXT_48 = ");" + NL + "\t\t}" + NL + "\t\tdados.close();" + NL + "\t\tdb.close();" + NL + "\t\thelper.close();" + NL + "\t\treturn lst";
+  protected final String TEXT_49 = ";" + NL + "\t}" + NL + "\t" + NL + "\tpublic boolean deleteById(int id){" + NL + "\t\t" + NL + "\t\tVistoriAppHelper helper = new VistoriAppHelper(this.context);" + NL + "\t\tSQLiteDatabase db = helper.getReadableDatabase();" + NL + "\t\tboolean excluiu = (db.delete(TABLE_NAME, \"_id = ?\", new String[]{id+\"\"}) > 0);" + NL + "\t\tdb.close();" + NL + "\t\thelper.close();" + NL + "\t\treturn excluiu;" + NL + "\t}" + NL + "\t" + NL + "}";
+  protected final String TEXT_50 = NL;
 
 	/*
 	 * (non-javadoc)
@@ -120,7 +138,47 @@ public class GeradorDAO  {
     stringBuffer.append(TEXT_30);
     stringBuffer.append(g.getNomeTabelaVar());
     stringBuffer.append(TEXT_31);
+    stringBuffer.append(g.getNomeTabelaClass());
     stringBuffer.append(TEXT_32);
+    stringBuffer.append(g.getNomeTabelaClass());
+    stringBuffer.append(TEXT_33);
+    stringBuffer.append(g.getNomeColunaConstante(0));
+     for(int i = 1; i < g.size(); i++){
+    stringBuffer.append(TEXT_34);
+    stringBuffer.append(g.getNomeColunaConstante(i));
+    }
+    stringBuffer.append(TEXT_35);
+    stringBuffer.append(g.getNomeTabelaClass());
+    stringBuffer.append(TEXT_36);
+    stringBuffer.append(g.getNomeTabelaClass());
+    stringBuffer.append(TEXT_37);
+    stringBuffer.append(g.getNomeTabelaClass());
+    stringBuffer.append(TEXT_38);
+    stringBuffer.append(g.getNomeTabelaClass());
+    stringBuffer.append(TEXT_39);
+    stringBuffer.append(g.getNomeTabelaVar());
+    stringBuffer.append(TEXT_40);
+    stringBuffer.append(g.getNomeTabelaClass());
+    stringBuffer.append(TEXT_41);
+    stringBuffer.append(g.getNomeTabelaVar());
+    stringBuffer.append(TEXT_42);
+     for(int i = 0; i < g.size(); i++){
+			
+    stringBuffer.append(g.getNomeTabelaVar());
+    stringBuffer.append(TEXT_43);
+    stringBuffer.append(g.getNomeColunaGet(i));
+    stringBuffer.append(TEXT_44);
+    stringBuffer.append(i+1);
+    stringBuffer.append(TEXT_45);
+    }
+    stringBuffer.append(TEXT_46);
+    stringBuffer.append(g.getNomeTabelaClass());
+    stringBuffer.append(TEXT_47);
+    stringBuffer.append(g.getNomeTabelaVar());
+    stringBuffer.append(TEXT_48);
+    stringBuffer.append(g.getNomeTabelaClass());
+    stringBuffer.append(TEXT_49);
+    stringBuffer.append(TEXT_50);
     return stringBuffer.toString();
   }
 }
